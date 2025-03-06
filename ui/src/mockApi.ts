@@ -1,5 +1,7 @@
 import { http, HttpResponse } from "msw";
 import { setupWorker } from "msw/browser";
+import { DB, Transaction } from "./types";
+import { CreateTransactionDTO } from "./types";
 
 const isNetworkDown = () => 0.3 < Math.random();
 const networkErrorResponse = new HttpResponse(null, { status: 500 });

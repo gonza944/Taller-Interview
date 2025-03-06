@@ -1,12 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useEffect, useState, FormEvent } from "react";
-import {
-  Alert,
-  Button,
-  Col,
-  Container,
-  Row,
-} from "react-bootstrap";
+import { Alert, Button, Col, Container, Row } from "react-bootstrap";
 import "./App.css";
 import TransactionCard from "./components/TransactionCard";
 import TransactionFilter from "./components/TransactionFilter";
@@ -34,10 +28,10 @@ function App() {
   const fetchTransactions = async (params?: FetchTransactionsParams) => {
     try {
       let url = "/api/v1/transactions";
-      
+
       // Add query parameters
       const urlParams = new URLSearchParams();
-      
+
       if (params?.startingDate && params?.endingDate) {
         urlParams.append("startingDate", params.startingDate);
         urlParams.append("endingDate", params.endingDate);
@@ -45,29 +39,33 @@ function App() {
       if (params?.sortBy) {
         urlParams.append("sortBy", params.sortBy);
       }
-      
+
       // Append params to URL if any exist
       if (urlParams.toString()) {
         url += `?${urlParams.toString()}`;
       }
-      
+
       const response = await fetch(url);
       const data = await response.json();
       setTransactions(data);
       setError(null);
     } catch (e) {
-      setError(`Error fetching transactions: ${e instanceof Error ? e.message : 'Unknown error'}`);
+      setError(
+        `Error fetching transactions: ${
+          e instanceof Error ? e.message : "Unknown error"
+        }`
+      );
     }
   };
 
   const handleFilter = (e: FormEvent) => {
     e.preventDefault();
-    
+
     if (startDate && endDate) {
       fetchTransactions({
         startingDate: startDate,
         endingDate: endDate,
-        sortBy
+        sortBy,
       });
     } else {
       setError("Please select both start and end dates");
@@ -76,15 +74,14 @@ function App() {
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newSortBy = e.target.value;
-    setSortBy(newSortBy);
-    
+
     // Create params object with dates only if both are provided
     const params: FetchTransactionsParams = { sortBy: newSortBy };
     if (startDate && endDate) {
       params.startingDate = startDate;
       params.endingDate = endDate;
     }
-    
+
     // Fetch with new parameters
     fetchTransactions(params);
   };
@@ -115,7 +112,11 @@ function App() {
       setTransactions([...transactions, newTransaction]);
       setError(null);
     } catch (e) {
-      setError(`Error adding transaction: ${e instanceof Error ? e.message : 'Unknown error'}`);
+      setError(
+        `Error adding transaction: ${
+          e instanceof Error ? e.message : "Unknown error"
+        }`
+      );
     }
   };
 
@@ -139,10 +140,7 @@ function App() {
         onFilter={handleFilter}
       />
 
-      <TransactionSort
-        sortBy={sortBy}
-        onSortChange={handleSortChange}
-      />
+      <TransactionSort sortBy={sortBy} onSortChange={handleSortChange} />
 
       <Row>
         {transactions.map((transaction) => (
