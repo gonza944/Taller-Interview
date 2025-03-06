@@ -1,5 +1,7 @@
 interface CreateTransactionDTO {
   description: string
+  amount: number
+  date: Date
 }
 
 interface Transaction extends CreateTransactionDTO {

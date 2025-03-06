@@ -17,16 +17,15 @@ body {
   width: 100%; /* Ensure content spans the full width */
 }
 
-.content {
+.flex-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column; /* Allows flexibility if you want to add more items */
 }
 
-.Badge {
-  font-size: 1.5rem; /* Larger badge text for better visibility */
-  background-color: #198754; /* Bootstrap's success color */
-  color: white !important; /* Ensure text in badge is always white */
+.Flex-Column {
+  flex-direction: column;
+}
+
+.Button {
+  width: 10rem;
 }
 
