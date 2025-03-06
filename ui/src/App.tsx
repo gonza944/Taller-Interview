@@ -3,14 +3,15 @@ import { useEffect, useState, FormEvent } from "react";
 import {
   Alert,
   Button,
-  Card,
   Col,
   Container,
-  Form,
   Row,
-  Stack,
 } from "react-bootstrap";
 import "./App.css";
+import TransactionCard from "./components/TransactionCard";
+import TransactionFilter from "./components/TransactionFilter";
+import TransactionSort from "./components/TransactionSort";
+import { Transaction } from "./types";
 
 function App() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -130,87 +131,23 @@ function App() {
         </Button>
       </Row>
 
-      <Row className="mb-4">
-        <Stack>
-          <h3>Filter</h3>
-          <Form onSubmit={handleFilter}>
-            <Stack
-              direction="horizontal"
-              gap={4}
-              className="d-flex justify-content-center">
-              <Stack direction="horizontal" gap={2}>
-                <Form.Label htmlFor="startingDate" className="ms-auto">
-                  Starting Date
-                </Form.Label>
-                <Form.Control 
-                  type="date" 
-                  id="startingDate" 
-                  value={startDate}
-                  onChange={handleStartDateChange}
-                />
-              </Stack>
-              <Stack direction="horizontal" gap={2}>
-                <Form.Label htmlFor="endDate" className="ms-auto">
-                  Ending Date
-                </Form.Label>
-                <Form.Control 
-                  type="date" 
-                  id="endDate" 
-                  value={endDate}
-                  onChange={handleEndDateChange}
-                />
-              </Stack>
-              <Stack direction="horizontal" gap={2}>
-                <Button variant="primary" type="submit">
-                  Filter
-                </Button>
-              </Stack>
-            </Stack>
-          </Form>
-        </Stack>
-      </Row>
+      <TransactionFilter
+        startDate={startDate}
+        endDate={endDate}
+        onStartDateChange={handleStartDateChange}
+        onEndDateChange={handleEndDateChange}
+        onFilter={handleFilter}
+      />
 
-      <Row className="mb-4">
-        <Stack>
-          <h3>Sort By</h3>
-            <Stack
-              direction="horizontal"
-              gap={4}
-              className="d-flex">
-              <Stack direction="horizontal" gap={2}>
-                <Form.Label htmlFor="sortBy" className="ms-auto">
-                  Sort Transactions
-                </Form.Label>
-                <Form.Select 
-                  id="sortBy" 
-                  value={sortBy} 
-                  onChange={handleSortChange}
-                  style={{ width: '200px' }}
-                >
-                  <option value="">None</option>
-                  <option value="date">Date</option>
-                  <option value="amount">Amount</option>
-                </Form.Select>
-              </Stack>
-            </Stack>
-        </Stack>
-      </Row>
+      <TransactionSort
+        sortBy={sortBy}
+        onSortChange={handleSortChange}
+      />
 
       <Row>
         {transactions.map((transaction) => (
           <Col key={transaction.id} md={4} className="mb-3">
-            <Card>
-              <Card.Body>
-                <Card.Title>Transaction {transaction.id}</Card.Title>
-                <Card.Text>{transaction.description}</Card.Text>
-                <Card.Text>{transaction.amount}</Card.Text>
-                <Card.Text>{new Date(transaction.date).toLocaleDateString('en-US', {
-                  month: '2-digit',
-                  day: '2-digit',
-                  year: 'numeric'
-                })}</Card.Text>
-              </Card.Body>
-            </Card>
+            <TransactionCard transaction={transaction} />
           </Col>
         ))}
       </Row>

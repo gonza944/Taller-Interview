@@ -8,5 +8,5 @@ export default defineConfig({
     port: 8777,
     strictPort: true,
   },
-  publicDir: 'public', 
+  publicDir: 'public',
 })

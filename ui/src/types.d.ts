@@ -4,7 +4,7 @@ interface CreateTransactionDTO {
   date: Date
 }
 
-interface Transaction extends CreateTransactionDTO {
+export interface Transaction extends CreateTransactionDTO {
   id: number
 }
 
